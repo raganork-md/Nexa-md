@@ -1,0 +1,14 @@
+# Sensitive files to ignore
+
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Session data
+session/
+
+# Log files
+logs/
+*.log
