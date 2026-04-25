@@ -12,7 +12,7 @@ module.exports = {
 
     // 👤 Bot Personalization
     BOT_NAME: process.env.BOT_NAME || "NEXA-MD",
-    OWNER_NAME: process.env.OWNER_NAME || "MUSTHAFA M P",
+    OWNER_NAME: process.env.OWNER_NAME || "ANSAD SER",
     OWNER_NUMBER: process.env.OWNER_NUMBER || "916235508514",
 
     // ⚙️ Bot Settings
