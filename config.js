@@ -1,19 +1,27 @@
+const fs = require('fs');
+if (fs.existsSync('config.env')) require('dotenv').config({ path: './config.env' });
+
+function convertToBool(text, fault = 'true') {
+    return text === fault ? true : false;
+}
+
 module.exports = {
-  SESSION_ID: '',
-  SESSION_FORMAT: 'base64',
-  SESSION_PATH: '',
-  PREFIX: '',
-  BOT_NAME: '',
-  BOT_DESC: '',
-  AUTO_REPLY: false,
-  AUTO_READ: true,
-  PLUGINS_ENABLED: [],
-  API_KEY: '',
-  OWNER_NUMBER: '',
-  DEBUG_MODE: false,
-  BAILEYS_CONFIG: {
-    // Example configuration options
-    connection: 'close',
-    maxRetries: 5,
-  }
+    // 🔑 Session & Database
+    SESSION_ID: process.env.SESSION_ID || "NEXA-MD~PASTE_YOUR_ID_HERE",
+    MONGODB: process.env.MONGODB || "mongodb+srv://user:pass@cluster.mongodb.net/myDB",
+
+    // 👤 Bot Personalization
+    BOT_NAME: process.env.BOT_NAME || "NEXA-MD",
+    OWNER_NAME: process.env.OWNER_NAME || "MUSTHAFA M P",
+    OWNER_NUMBER: process.env.OWNER_NUMBER || "916235508514",
+
+    // ⚙️ Bot Settings
+    PREFIX: process.env.PREFIX || ".",
+    AUTO_READ_STATUS: convertToBool(process.env.AUTO_READ_STATUS, 'true'),
+    MODE: process.env.MODE || "public", // 'public' or 'private'
+    ANTILINK: convertToBool(process.env.ANTILINK, 'false'),
+    
+    // ⚡ Other Configs
+    ALIVE_IMG: process.env.ALIVE_IMG || "https://telegra.ph/file/your_image.jpg",
+    ALIVE_MSG: process.env.ALIVE_MSG || "Hello, I am NEXA-MD! I am alive and working. 🚀"
 };
