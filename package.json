@@ -1,1 +1,29 @@
-{"name": "nexa-md", "version": "1.0.0", "main": "index.js", "scripts": { "start": "node index.js" }, "dependencies": { "whatsapp-web.js": "^1.15.0" }}
+{
+  "name": "nexa-md",
+  "version": "1.5.0",
+  "description": "Multi-Device WhatsApp Bot with MongoDB and Plugin Support",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "NEAX MD",
+  "license": "MIT",
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.6.0",
+    "mongoose": "^8.2.0",
+    "pino": "^8.19.0",
+    "axios": "^1.6.7",
+    "fs-extra": "^11.2.0",
+    "path": "^0.12.7",
+    "qrcode": "^1.5.3",
+    "fluent-ffmpeg": "^2.1.2",
+    "ytdl-core": "^4.11.5",
+    "yt-search": "^2.10.4",
+    "form-data": "^4.0.0",
+    "file-type": "^16.5.4",
+    "node-fetch": "^2.7.0",
+    "jimp": "^0.22.10",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
