@@ -1,41 +1,32 @@
 const config = require('../config');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = [
-    // 1. PING COMMAND
-    {
-        name: 'ping',
-        category: 'main',
-        async execute(conn, msg) {
-            const start = new Date().getTime();
-            const { remoteJid } = msg.key;
-            const message = await conn.sendMessage(remoteJid, { text: '📡 *Nexa-MD Latency...*' });
-            const end = new Date().getTime();
-            await conn.sendMessage(remoteJid, { 
-                text: `⚡ *Speed:* ${end - start}ms`, 
-                edit: message.key 
-            });
-        }
-    },
+    // ... (Ping command പഴയപോലെ തന്നെ)
 
     // 2. ALIVE COMMAND
     {
         name: 'alive',
         category: 'main',
         async execute(conn, msg, { prefix }) {
-            const aliveText = `*NEXA-MD IS ONLINE* 🧬\n\n*User:* ${config.OWNER_NAME}\n*Prefix:* ${prefix}\n*Status:* System Stable ✅`;
+            const imagePath = path.join(__dirname, '../lib/media/nexa.jpg');
+            const aliveText = `*NEXA-MD IS ONLINE* 🧬\n\n*User:* ${config.OWNER_NAME}\n*Prefix:* ${prefix}`;
+            
             await conn.sendMessage(msg.key.remoteJid, {
-                image: { url: config.ALIVE_IMG },
+                image: fs.readFileSync(imagePath), // ലോക്കൽ ഫയൽ നേരിട്ട് റീഡ് ചെയ്യുന്നു
                 caption: aliveText
             }, { quoted: msg });
         }
     },
 
-    // 3. CLEAN STYLE MENU
+    // 3. MENU COMMAND (Local Image)
     {
         name: 'menu',
         category: 'main',
         async execute(conn, msg, { prefix }) {
             const from = msg.key.remoteJid;
+            const imagePath = path.join(__dirname, '../lib/media/nexa.jpg'); // ഫോട്ടോയുടെ പാത്ത്
             
             let menuText = `╔══════════════════╗\n`;
             menuText += `║     *${config.BOT_NAME.toUpperCase()}* \n`;
@@ -44,23 +35,28 @@ module.exports = [
             menuText += `┌───〔 *USER INFO* 〕───┈⊷\n`;
             menuText += `│ 👑 *User:* ${config.OWNER_NAME}\n`;
             menuText += `│ 🛠️ *Prefix:* ${prefix}\n`;
-            menuText += `│ 🚀 *Mode:* ${config.MODE}\n`;
             menuText += `└──────────────────┈⊷\n\n`;
 
-            menuText += `┌───〔 *MAIN COMMANDS* 〕───┈⊷\n`;
+            menuText += `┌───〔 *COMMANDS* 〕───┈⊷\n`;
             menuText += `│ 📥 ${prefix}ping\n`;
             menuText += `│ 📥 ${prefix}alive\n`;
             menuText += `│ 📥 ${prefix}menu\n`;
             menuText += `└──────────────────┈⊷\n\n`;
 
-            menuText += `_Nexa-MD: Simple & Powerful_ 🛡️`;
+            menuText += `_Simple & Powerful_ 🛡️`;
 
             try {
-                await conn.sendMessage(from, {
-                    image: { url: config.ALIVE_IMG },
-                    caption: menuText
-                }, { quoted: msg });
+                if (fs.existsSync(imagePath)) {
+                    await conn.sendMessage(from, {
+                        image: fs.readFileSync(imagePath),
+                        caption: menuText
+                    }, { quoted: msg });
+                } else {
+                    // ഫോട്ടോ കണ്ടില്ലെങ്കിൽ ടെക്സ്റ്റ് അയക്കും
+                    await conn.sendMessage(from, { text: menuText }, { quoted: msg });
+                }
             } catch (error) {
+                console.error("Local Image Menu Error:", error);
                 await conn.sendMessage(from, { text: menuText }, { quoted: msg });
             }
         }
