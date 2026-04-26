@@ -1,6 +1,6 @@
 const config = require('../config');
-const fs = require('fs');
 const path = require('path');
+const fs = require('fs');
 
 module.exports = [
     // 1. PING COMMAND
@@ -8,14 +8,18 @@ module.exports = [
         name: 'ping',
         category: 'main',
         async execute(conn, msg, { args }) {
-            const start = new Date().getTime();
-            const { remoteJid } = msg.key;
-            const message = await conn.sendMessage(remoteJid, { text: '⚡ *Nexa Speed Test...*' });
-            const end = new Date().getTime();
-            await conn.sendMessage(remoteJid, { 
-                text: `*Latency:* ${end - start}ms 🚀`, 
-                edit: message.key 
-            });
+            try {
+                const start = new Date().getTime();
+                const { remoteJid } = msg.key;
+                const message = await conn.sendMessage(remoteJid, { text: '⚡ *Nexa Speed Test...*' });
+                const end = new Date().getTime();
+                await conn.sendMessage(remoteJid, { 
+                    text: `*Latency:* ${end - start}ms 🚀`, 
+                    edit: message.key 
+                });
+            } catch (e) {
+                console.log("Ping Error:", e);
+            }
         }
     },
 
@@ -24,61 +28,52 @@ module.exports = [
         name: 'alive',
         category: 'main',
         async execute(conn, msg, { prefix }) {
-            const aliveText = `*HEY! NEXA-MD IS ONLINE* 🧬\n\n*User:* ${config.OWNER_NAME}\n*Prefix:* ${prefix}\n*Mode:* ${config.MODE}\n\n_System is stable and running smoothly._`;
-            await conn.sendMessage(msg.key.remoteJid, {
-                image: { url: config.ALIVE_IMG },
-                caption: aliveText
-            }, { quoted: msg });
+            try {
+                const aliveText = `*HEY! NEXA-MD IS ONLINE* 🧬\n\n*User:* ${config.OWNER_NAME}\n*Prefix:* ${prefix}\n*Mode:* ${config.MODE}\n\n_System is stable and running smoothly._`;
+                await conn.sendMessage(msg.key.remoteJid, {
+                    image: { url: config.ALIVE_IMG || 'https://telegra.ph/file/default_image.jpg' },
+                    caption: aliveText
+                }, { quoted: msg });
+            } catch (e) {
+                console.log("Alive Error:", e);
+                await conn.sendMessage(msg.key.remoteJid, { text: "*NEXA-MD IS ALIVE* 🚀" });
+            }
         }
     },
 
-    // 3. AUTOMATIC MENU COMMAND
+    // 3. MENU COMMAND
     {
         name: 'menu',
         category: 'main',
         async execute(conn, msg, { prefix }) {
-            const from = msg.key.remoteJid;
-            const pluginPath = path.join(__dirname, '../plugins');
-            const pluginFiles = fs.readdirSync(pluginPath).filter(file => file.endsWith('.js'));
+            try {
+                const from = msg.key.remoteJid;
+                
+                let menuText = `╭━━〔 *${config.BOT_NAME}* 〕━━┈⊷\n`;
+                menuText += `┃ 👑 *Owner:* ${config.OWNER_NAME}\n`;
+                menuText += `┃ 🛠️ *Prefix:* [ ${prefix} ]\n`;
+                menuText += `╰━━━━━━━━━━━━━━┈⊷\n\n`;
 
-            let menuData = {};
+                menuText += `*📂 MAIN COMMANDS*\n`;
+                menuText += `┃ 📥 ${prefix}ping\n`;
+                menuText += `┃ 📥 ${prefix}alive\n`;
+                menuText += `┃ 📥 ${prefix}menu\n\n`;
 
-            // Plugin scan cheythu category thirikkunnu
-            pluginFiles.forEach(file => {
-                const plugin = require(path.join(pluginPath, file));
-                if (Array.isArray(plugin)) {
-                    plugin.forEach(p => {
-                        const cat = p.category || 'misc';
-                        if (!menuData[cat]) menuData[cat] = [];
-                        menuData[cat].push(p.name);
-                    });
-                } else {
-                    const cat = plugin.category || 'misc';
-                    if (!menuData[cat]) menuData[cat] = [];
-                    menuData[cat].push(plugin.name);
-                }
-            });
+                menuText += `*Built by MUSTHAFA M P* 🛡️`;
 
-            let menuText = `╭━━〔 *${config.BOT_NAME}* 〕━━┈⊷\n`;
-            menuText += `┃ 👑 *Owner:* ${config.OWNER_NAME}\n`;
-            menuText += `┃ 🛠️ *Prefix:* [ ${prefix} ]\n`;
-            menuText += `╰━━━━━━━━━━━━━━┈⊷\n\n`;
-
-            Object.keys(menuData).sort().forEach(category => {
-                menuText += `*📂 ${category.toUpperCase()}*\n`;
-                menuData[category].forEach(cmd => {
-                    menuText += `┃ 📥 ${prefix}${cmd}\n`;
+                // Image load ആയില്ലെങ്കിൽ വെറും ടെക്സ്റ്റ് മെനു അയക്കാൻ വേണ്ടിയുള്ള സെറ്റപ്പ്
+                await conn.sendMessage(from, {
+                    image: { url: config.ALIVE_IMG || 'https://telegra.ph/file/default_image.jpg' },
+                    caption: menuText
+                }, { quoted: msg }).catch(async () => {
+                    await conn.sendMessage(from, { text: menuText }, { quoted: msg });
                 });
-                menuText += `\n`;
-            });
 
-            menuText += `*Built by MUSTHAFA M P* 🛡️`;
-
-            await conn.sendMessage(from, {
-                image: { url: config.ALIVE_IMG },
-                caption: menuText
-            }, { quoted: msg });
+            } catch (e) {
+                console.error("Menu Error:", e);
+                await conn.sendMessage(msg.key.remoteJid, { text: "❌ Menu could not be loaded." });
+            }
         }
     }
 ];
-                      
+                    
