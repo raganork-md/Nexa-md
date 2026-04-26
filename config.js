@@ -22,6 +22,6 @@ module.exports = {
     ANTILINK: convertToBool(process.env.ANTILINK, 'false'),
     
     // ⚡ Other Configs
-    ALIVE_IMG: process.env.ALIVE_IMG || "https://telegra.ph/file/your_image.jpg",
-    ALIVE_MSG: process.env.ALIVE_MSG || "Hello, I am NEXA-MD! I am alive and working. 🚀"
+    ALIVE_IMG: process.env.ALIVE_IMG || "https://i.ibb.co/dJ6BYnVq/temp.jpg",
+    ALIVE_MSG: process.env.ALIVE_MSG || "HI  NEXA-MD! I am alive and working. 🚀"
 };
