@@ -30,7 +30,7 @@ Scan the QR code or get the Pair Code to obtain your `SESSION_ID`. Use the link 
 - **Fast Response:** Optimized for low latency.
 ---
 ## 👑 Owner & Credits
-- **Developer:** Anu
+- **Developer:** **ARUN** **&** **ANSAD**
 - **Library:** [Whiskeysockets/Baileys](https://github.com/Whiskeysockets/Baileys)
 ---
 _Powered by Nexa-MD_
