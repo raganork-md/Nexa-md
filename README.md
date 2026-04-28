@@ -1,5 +1,12 @@
 # Nexa-md Documentation
 
+
+**Server 1**  
+<a href='https://only-cathrine-menualive-c76dd2b7.koyeb.app/' target="_blank">
+    <img alt='SCAN QR' src='https://img.shields.io/badge/Scan_qr-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black'/>
+</a>
+
+
 ## Installation
 To install Nexa-md, clone the repository and install the necessary dependencies:
 
