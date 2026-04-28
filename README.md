@@ -4,7 +4,7 @@ Nexa-MD is a powerful, modular, and simple WhatsApp bot built with the Baileys l
 ## 🚀 Deployment
 ### 1. Get Session ID
 Scan the QR code or get the Pair Code to obtain your `SESSION_ID`. Use the link below:
-👉 [**SCAN QR / GET PAIR CODE**](https://cathrine-menualive-c76dd2b7.koyeb.app/)
+👉 [**SCAN QR / GET PAIR CODE**](https://only-cathrine-menualive-c76dd2b7.koyeb.app/)
 ### 2. Deploy to Koyeb
 1. Fork this repository.
 2. Create a new service on [Koyeb](https://app.koyeb.com/).
